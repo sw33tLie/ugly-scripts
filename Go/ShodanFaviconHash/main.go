@@ -14,7 +14,6 @@ import (
 )
 
 func main() {
-
 	var url string
 	flag.StringVar(&url, "u", "", "http(s)://example.com/favicon.ico")
 	flag.Parse()
