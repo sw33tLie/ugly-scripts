@@ -24,9 +24,9 @@ update_wildcards() {
 grabwildcardsthatpay() {
     echo "Ching Ching $ $ "
     jq -r '.[].targets.in_scope[] | select(.eligible_for_bounty==true and .asset_type == "URL") | .asset_identifier' < "$HACKERONE" | tee /tmp/domains.mixed
-    jq -r '.[].targets.in_scope[] | select(.eligible_for_bounty==true and .asset_type == "URL") | .asset_identifier' < "$BUGCROWD"  | tee -a /tmp/domains.mixed
-    jq -r '.[].targets.in_scope[] | select(.eligible_for_bounty==true and .asset_type == "URL") | .asset_identifier' < "$INTIGRITI" | tee -a /tmp/domains.mixed
-    jq -r '.[].targets.in_scope[] | select(.eligible_for_bounty==true and .asset_type == "URL") | .asset_identifier' < "$YESWEHACK" | tee -a /tmp/domains.mixed
+    jq -r '.[] | select(.max_payout!=0) | .targets.in_scope[] | select(.type=="website testing") | .target' < "$BUGCROWD"  | tee -a /tmp/domains.mixed
+    jq -r '.[] | select(.max_bounty!=0.0) | .targets.in_scope[] | select(.type == "url") | .endpoint' < "$INTIGRITI" | tee -a /tmp/domains.mixed
+    jq -r '.[] | select(.max_bounty!=0.0) | .targets.in_scope[] | select(.type == "web-application") | .target' < "$YESWEHACK" | tee -a /tmp/domains.mixed
     egrep '^\*\.' /tmp/domains.mixed | egrep -v '\.\*$' | sed -e 's/^\*\.//g'| tee /tmp/domains.noasterisk
     rm -rf /tmp/domains.mixed
 }
