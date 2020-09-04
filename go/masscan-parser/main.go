@@ -11,8 +11,10 @@ import (
 )
 
 func main() {
-	var filePath string
+	var filePath, prefix string
 	flag.StringVar(&filePath, "f", "", "example.json")
+	flag.StringVar(&prefix, "p", "", "lines prefix, for example: http://")
+
 	flag.Parse()
 
 	if filePath == "" {
@@ -35,7 +37,7 @@ func main() {
 
 	for ip, ports := range portsMap {
 		for _, port := range ports {
-			fmt.Println(ip + ":" + strconv.Itoa(port))
+			fmt.Println(prefix + ip + ":" + strconv.Itoa(port))
 		}
 	}
 }
